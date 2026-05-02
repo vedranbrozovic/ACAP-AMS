@@ -1,0 +1,6 @@
+{
+  "name": "ACAP Architecture Visualizer",
+  "description": "Visual diagram of the ACAP architecture ecosystem transitioning from monolithic to modular.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
