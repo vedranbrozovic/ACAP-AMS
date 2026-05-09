@@ -1,302 +1,6 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Database, 
-  Zap, 
-  Layout, 
-  Smartphone, 
-  CreditCard, 
-  Mail, 
-  Calendar, 
-  MessageSquare,
-  ChevronRight,
-  ShieldCheck,
-  Globe,
-  Layers,
-  GitBranch,
-  GitMerge,
-  Box,
-  ExternalLink
-} from 'lucide-react';
-
-const PATH_DATA = [
-  {
-    id: 'path-1',
-    title: 'Optimized All-in-One',
-    subtitle: 'Path 1: Traditional AMS',
-    status: 'LEGACY OPTION',
-    statusColor: 'text-amber-400',
-    dotColor: 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]',
-    description: 'Focuses on cost minimization and administrative stability. Best for traditional, database-centric operations.',
-    nodes: [
-      {
-        id: 'ams',
-        role: 'All-in-One Database',
-        icon: 'database',
-        options: [
-          {
-            name: 'Wild Apricot',
-            url: 'https://wildapricot.com',
-            metric: '~$5k - $6k/yr',
-            description: 'Budget-optimized database focused on administration over engagement. Great for basic filing cabinet functions.',
-            features: ['Automated Renewals', 'Event Registration', 'Website Builder']
-          },
-          { 
-            name: 'Hivebrite', 
-            url: 'https://hivebrite.com', 
-            description: 'Current legacy monolith. Feature rich but siloed data & ux. High cost for scaling.', 
-            metric: '~$15k/yr',
-            features: ['Alumni Network', 'Interactive Map', 'Mentorship Module', 'Job Board']
-          },
-          { 
-            name: 'Glue Up', 
-            url: 'https://glueup.com', 
-            description: 'Premium global chapter management focusing on events. Very formal structure.', 
-            metric: '~$15.5k/yr',
-            features: ['Speed Networking', 'Native QR Check-in', 'Virtual Event Sync']
-          },
-          { 
-            name: 'MemberClicks', 
-            url: 'https://memberclicks.com', 
-            description: 'Personify ecosystem tool for mid-market groups with organizational tier structures.', 
-            metric: '~$4.5k+/yr',
-            features: ['Committee Management', 'Job Board', 'LMS Classroom']
-          }
-        ]
-      }
-    ],
-    notes: [
-      { title: 'Cost Efficiency', icon: 'shield', desc: 'Costs less than $6,000 per year with highly reliable data management.', color: 'text-amber-400' },
-      { title: 'Monolithic Lock-in', icon: 'layout', desc: 'Engagement features are dated and difficult to upgrade without waiting for vendor roadmaps.', color: 'text-slate-400' }
-    ]
-  },
-  {
-    id: 'path-2',
-    title: 'Engagement Hybrid',
-    subtitle: 'Path 2: Community + CRM',
-    status: 'VIABLE ALTERNATIVE',
-    statusColor: 'text-blue-400',
-    dotColor: 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]',
-    description: 'A major upgrade in user experience focusing on community interaction alongside tiered billing.',
-    nodes: [
-      {
-         id: 'hybrid-crm',
-         role: 'The Brain & Wallet',
-         icon: 'creditcard',
-         options: [
-           {
-             name: 'Outseta',
-             url: 'https://outseta.com',
-             metric: '~$800/yr + 1% tx',
-             description: 'Handles the membership tiering, payments, and identity provisioning, acting as the foundation.',
-             features: ['SSO Provider', 'Stripe Billing', 'Automated Workflows']
-           },
-           { 
-             name: 'Join It', 
-             url: 'https://joinit.com', 
-             description: 'Native digital wallet cards and check-in. Eventbrite sync.', 
-             metric: '~$1k/yr + 2% tx',
-             features: ['Eventbrite Sync', 'Digital Wallet Cards', 'Automated Billing']
-           },
-           { 
-             name: 'Memberstack', 
-             url: 'https://memberstack.com', 
-             description: 'Web integration focused (mostly Webflow) but great for gated portals.', 
-             metric: '~$800/yr',
-             features: ['Webflow Integration', 'Gated Content', 'Stripe Sync']
-           }
-         ]
-      },
-      {
-         id: 'hybrid-community',
-         role: 'Engagement Workspace',
-         icon: 'messagesquare',
-         options: [
-           {
-             name: 'Circle',
-             url: 'https://circle.so',
-             metric: '~$1k - $2k/yr',
-             description: 'World-class community interaction organized into specific spaces or feeds for robust engagement.',
-             features: ['Structured Spaces', 'Course Hosting', 'Direct Messaging', 'Live Streams']
-           },
-           { 
-             name: 'Mighty Networks', 
-             url: 'https://mightynetworks.com', 
-             description: 'Social network model with native courses. Heavy mobile app focus.', 
-             metric: '~$1.2k - $4.2k/yr',
-             features: ['Social Network Model', 'Native Courses', 'AI Co-Host']
-           },
-           { 
-             name: 'Tradewing', 
-             url: 'https://tradewing.com', 
-             description: 'B2B industry association engagement layer. Formal standard.', 
-             metric: 'Custom Pricing',
-             features: ['B2B Networking', 'Always-on Engagement', 'Sponsor Management']
-           }
-         ]
-      }
-    ],
-    notes: [
-      { title: 'Two-Platform Setup', icon: 'layers', desc: 'Significantly easier to maintain than a full modular stack, but typically requires using unbranded mobile apps.', color: 'text-blue-400' },
-      { title: 'Community-Led', icon: 'users', desc: 'Shifts organizational focus away from administrative "busywork" directly to member-to-member interactions.', color: 'text-emerald-400' }
-    ]
-  },
-  {
-    id: 'path-3',
-    title: 'Best-of-Breed "Super App"',
-    subtitle: 'Path 3: Modular Ecosystem',
-    status: 'RECOMMENDED • PHASE 1',
-    statusColor: 'text-emerald-400',
-    dotColor: 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]',
-    description: 'Fully white-labeled, hyper-engaged architecture. Decouples administrative functions from member-facing layers.',
-    nodes: [
-      {
-        id: 'website',
-        role: 'The Front Door',
-        icon: 'globe',
-        options: [
-          {
-            name: 'Ghost CMS',
-            url: 'https://ghost.org',
-            metric: '~$300/yr Pro',
-            description: 'Your public face. SEO-optimized, blazing fast, and professional. Replaces Hivebrite\'s basic CMS.',
-            features: ['Member Login', 'Public Archive', 'SEO Management', 'Fast Loading']
-          },
-          { 
-            name: 'WordPress', 
-            url: 'https://wordpress.org', 
-            description: 'Legacy standard, massive plugin ecosystem. Heavy, requires hosting.', 
-            metric: 'Variable Cost',
-            features: ['Massive Plugin Ecosystem', 'Custom Themes', 'Granular Roles']
-          },
-          { 
-            name: 'Webflow', 
-            url: 'https://webflow.com', 
-            description: 'Visual dev, higher learning curve but great design and animations.', 
-            metric: '~$400/yr',
-            features: ['Visual Dev', 'CMS Collections', 'Custom Animation']
-          }
-        ]
-      },
-      {
-        id: 'crm',
-        role: 'The Core Hub',
-        icon: 'database',
-        options: [
-          {
-            name: 'Outseta',
-            url: 'https://outseta.com',
-            metric: '~$800/yr + 1% tx',
-            description: 'Centralized CRM and billing. Handles memberships, automated renewals, and authentication (SSO).',
-            features: ['Auto-Renewals', 'Stripe Integration', 'Single Sign-On']
-          },
-          { 
-            name: 'Join It', 
-            url: 'https://joinit.com', 
-            description: 'Billing focused with Eventbrite sync. Easier setup.', 
-            metric: '~$1k/yr + 2% tx',
-            features: ['Automated Billing', 'Digital Cards', 'Eventbrite Sync']
-          },
-          { 
-            name: 'Stripe Billing', 
-            url: 'https://stripe.com/billing', 
-            description: 'Direct raw stripe integration. Requires development but no extra CRM fees.', 
-            metric: 'Pay-as-you-go',
-            features: ['Advanced Subscriptions', 'Invoicing', 'Payment Portal']
-          }
-        ]
-      },
-      {
-        id: 'community',
-        role: 'Member Engagement',
-        icon: 'messagesquare',
-        options: [
-          {
-            name: 'Circle',
-            url: 'https://circle.so',
-            metric: '~$1k - $2k/yr',
-            description: 'The "LinkedIn-like" experience. Gated spaces for chapters, mentorship, and professional networking.',
-            features: ['Chapter Spaces', 'Member Directory', 'Direct Messaging']
-          },
-          { 
-            name: 'Mighty Networks', 
-            url: 'https://mightynetworks.com', 
-            description: 'Social network model + community courses. Deep mobile integration.', 
-            metric: '~$1.2k - $4.2k/yr',
-            features: ['Activity Feeds', 'Premium Groups', 'AI moderation']
-          },
-          { 
-            name: 'RallyBoard', 
-            url: 'https://rallyboard.com', 
-            description: 'Mentorship and cohort focused platform if general feed is unwanted.', 
-            metric: 'Custom',
-            features: ['AI Matching', 'Cohorts', 'Outcome tracking']
-          }
-        ]
-      },
-      {
-        id: 'newsletter',
-        role: 'The Megaphone',
-        icon: 'mail',
-        options: [
-          {
-            name: 'Beehiiv',
-            url: 'https://beehiiv.com',
-            metric: '~$500/yr (Scale)',
-            description: 'World-class newsletter tool. Handles custom branding and member-segmented communications.',
-            features: ['Referral Program', 'Premium Segments', 'Deep Analytics']
-          },
-          { 
-            name: 'Ghost News', 
-            url: 'https://ghost.org', 
-            description: 'Built-in email layer of Ghost CMS. Simple but effective.', 
-            metric: 'Included in CMS',
-            features: ['Native Integration', 'Clean Editor', 'Open-rate Tracking']
-          },
-          { 
-            name: 'Mailchimp', 
-            url: 'https://mailchimp.com', 
-            description: 'Classic marketing marketing platform. Higher scaling costs.', 
-            metric: 'Variable/High',
-            features: ['Complex Journeys', 'Legacy Integrations', 'Visual Editor']
-          }
-        ]
-      },
-      {
-        id: 'events',
-        role: 'The Calendar',
-        icon: 'calendar',
-        options: [
-          {
-            name: 'Luma',
-            url: 'https://lu.ma',
-            metric: '~$700/yr (Plus)',
-            description: 'Beautiful event pages with integrated RSVPs and SMS reminders. Much cleaner than standard AMS events.',
-            features: ['QR Check-ins', 'Member-Only Tickets', 'Calendar Sync']
-          },
-          { 
-            name: 'Eventbrite', 
-            url: 'https://eventbrite.com', 
-            description: 'Industry standard for event discovery, high ticket booking fees.', 
-            metric: 'Per Ticket Fee',
-            features: ['Global Discovery', 'Easy Payouts', 'Seating Maps']
-          },
-          { 
-            name: 'Cvent', 
-            url: 'https://cvent.com', 
-            description: 'Enterprise event & large conference management.', 
-            metric: 'Enterprise',
-            features: ['Hotel Blocks', 'Complex Registration', 'Sponsor Booths']
-          }
-        ]
-      }
-    ],
-    notes: [
-      { title: 'Security & SSO', icon: 'shield', desc: 'Authentication handled via IdP cascades to Ghost, Circle, and Luma, providing a unified member login.', color: 'text-emerald-400' },
-      { title: 'Automation Layer', icon: 'zap', desc: 'Make.com ensures data parity. CRM updates trigger immediate changes in Beehiiv and Circle access permissions.', color: 'text-amber-400' }
-    ]
-  }
-];
+import { Globe, ShieldCheck, Mail, Calendar, MessageSquare, CreditCard, Layout, Layers, Database, Zap, Users, Box, ExternalLink, GitBranch, AlertOctagon, CheckCircle2, AlertTriangle, XCircle, ChevronRight, Menu, X, Smartphone } from 'lucide-react';
+import { PATH_DATA, NO_GO_OPTIONS, STANDARD_FEATURES } from './data';
 
 const getIconComponent = (iconName: string, className: string = "") => {
   switch(iconName) {
@@ -361,6 +65,7 @@ const App = () => {
   const [activePathId, setActivePathId] = useState('path-3');
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
   const [nodeSelections, setNodeSelections] = useState<Record<string, number>>({});
+  const [showNoGo, setShowNoGo] = useState(false);
 
   const activePath = PATH_DATA.find(p => p.id === activePathId) || PATH_DATA[2];
   const activeNode = activeNodeId ? activePath.nodes.find(n => n.id === activeNodeId) || null : null;
@@ -413,6 +118,15 @@ const App = () => {
                <span className="text-lg font-black text-white">{p.title}</span>
             </button>
           ))}
+        </div>
+
+        <div className="flex justify-end mb-6">
+           <button 
+             onClick={() => setShowNoGo(true)} 
+             className="flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-4 py-2 rounded-lg transition-colors border border-rose-500/30"
+           >
+             <AlertOctagon size={14} /> Review No-Go Options (Excluded)
+           </button>
         </div>
 
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -629,14 +343,14 @@ const App = () => {
                       <GitBranch size={12} className={getThemeTextClass(activeNode.id)} />
                       Evaluated Alternatives
                     </h3>
-                    <div className="flex overflow-x-auto pb-4 gap-3 snap-x scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    <div className="flex flex-col gap-3">
                        {activeNode.options.map((alt: any, i: number) => {
                          if (i === (nodeSelections[activeNode.id] || 0)) return null;
                          return (
                            <div 
                              key={i} 
                              onClick={() => setNodeSelections(prev => ({ ...prev, [activeNode.id]: i }))}
-                             className="flex-none w-[220px] snap-start p-4 rounded-xl border bg-slate-800/30 border-slate-700/50 hover:bg-slate-800/80 transition-colors group flex flex-col min-h-[110px] cursor-pointer"
+                             className="p-4 rounded-xl border bg-slate-800/30 border-slate-700/50 hover:bg-slate-800/80 transition-colors group flex flex-col cursor-pointer"
                            >
                              <div className="flex justify-between items-start mb-2">
                                <span className="font-bold text-white group-hover:text-blue-400 transition-colors text-sm">{alt.name}</span>
@@ -665,17 +379,38 @@ const App = () => {
                 )}
                 
                 <div className="mb-8">
-                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4 border-b border-slate-800 pb-2">Key Functions</h3>
-                  <ul className="space-y-3">
-                    {activeOption.features?.map((f: string, i: number) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className={`w-4 h-4 rounded-full flex items-center justify-center mt-0.5 ${getThemeColorClass(activeNode.id).split(' ')[1]}`}>
-                          <div className={`w-1.5 h-1.5 rounded-full ${getThemeDotClass(activeNode.id)}`}></div>
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4 border-b border-slate-800 pb-2">Business Capabilities Matrix</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    {STANDARD_FEATURES.map((feature, i) => {
+                      const capability = activeOption.capabilities?.[feature.id];
+                      if (!capability || capability === 'N/A') return null;
+                      
+                      const isYes = capability.toLowerCase().startsWith('yes');
+                      const isNo = capability.toLowerCase().startsWith('no');
+                      const isPartial = capability.toLowerCase().startsWith('partial') || capability.toLowerCase().startsWith('limited');
+                      
+                      let Icon = CheckCircle2;
+                      let colorClass = 'text-emerald-400';
+                      
+                      if (isNo) {
+                        Icon = XCircle;
+                        colorClass = 'text-rose-500';
+                      } else if (isPartial) {
+                        Icon = AlertTriangle;
+                        colorClass = 'text-amber-400';
+                      }
+
+                      return (
+                        <div key={i} className="flex flex-col">
+                          <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">{feature.label}</span>
+                          <div className="flex items-start gap-2">
+                            <Icon size={14} className={`mt-0.5 shrink-0 ${colorClass}`} />
+                            <span className={`text-sm ${isNo ? 'text-slate-400' : 'text-slate-200'}`}>{capability}</span>
+                          </div>
                         </div>
-                        <span className="text-sm text-slate-300">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="mt-auto">
@@ -711,6 +446,105 @@ const App = () => {
           </p>
         </footer>
       </div>
+
+      {/* No-Go Options Modal */}
+      {showNoGo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setShowNoGo(false)}></div>
+          <div className="relative w-full max-w-5xl max-h-[90vh] bg-slate-900 border border-rose-500/30 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+             
+             {/* Modal Header */}
+             <div className="flex justify-between items-center p-6 border-b border-slate-800 bg-rose-950/20">
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center border border-rose-500/30">
+                   <AlertOctagon size={20} className="text-rose-400" />
+                 </div>
+                 <div>
+                   <h2 className="text-xl font-black text-white uppercase tracking-tight">Excluded Solutions (No-Go)</h2>
+                   <p className="text-[10px] text-rose-400/80 font-bold uppercase tracking-widest">Architectural Misfits & Outdated Legacy</p>
+                 </div>
+               </div>
+               <button 
+                 onClick={() => setShowNoGo(false)}
+                 className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+               >
+                 <X size={24} />
+               </button>
+             </div>
+
+             {/* Modal Body */}
+             <div className="flex-1 overflow-y-auto p-6">
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                 {NO_GO_OPTIONS.map((nogo, i) => (
+                   <div key={i} className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 relative overflow-hidden group">
+                     {/* Decorative background element */}
+                     <div className="absolute -right-10 -top-10 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl group-hover:bg-rose-500/10 transition-colors pointer-events-none"></div>
+                     
+                     <div className="flex justify-between items-start mb-4 relative z-10">
+                       <div>
+                         <h3 className="text-xl font-black text-white mb-1">{nogo.name}</h3>
+                         <span className="text-[10px] font-bold text-rose-400 uppercase tracking-widest px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 flex inline-flex items-center gap-1">
+                            <XCircle size={10} /> REJECTED
+                         </span>
+                       </div>
+                       {nogo.url && (
+                          <a href={nogo.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors">
+                            <ExternalLink size={16} />
+                          </a>
+                       )}
+                     </div>
+                     
+                     <p className="text-slate-400 text-sm leading-relaxed mb-6 block relative z-10">
+                       {nogo.description}
+                     </p>
+                     
+                     <div className="mb-6">
+                       <h4 className="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-3">Major Deficiencies</h4>
+                       <ul className="space-y-2">
+                         {nogo.features.map((f, j) => (
+                           <li key={j} className="flex items-start gap-2">
+                             <XCircle size={14} className="text-rose-500 mt-0.5 shrink-0" />
+                             <span className="text-sm text-slate-300">{f}</span>
+                           </li>
+                         ))}
+                       </ul>
+                     </div>
+
+                     <div className="pt-5 border-t border-slate-700/50">
+                        <h4 className="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-4">Capabilities Snapshot</h4>
+                        <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+                          {STANDARD_FEATURES.map((feature, j) => {
+                            const capability = nogo.capabilities?.[feature.id];
+                            if (!capability) return null;
+                            const isNo = capability.toLowerCase().startsWith('no');
+                            const isPartial = capability.toLowerCase().startsWith('partial') || capability.toLowerCase().startsWith('limited');
+                            
+                            let Icon = CheckCircle2;
+                            let colorClass = 'text-slate-400';
+                            
+                            if (isNo) { Icon = XCircle; colorClass = 'text-rose-500'; }
+                            else if (isPartial) { Icon = AlertTriangle; colorClass = 'text-amber-400'; }
+                            else { colorClass = 'text-emerald-500'; }
+
+                            return (
+                              <div key={j} className="flex items-start gap-2">
+                                <Icon size={12} className={`mt-0.5 shrink-0 ${colorClass}`} />
+                                <div>
+                                  <div className="text-[8px] font-bold uppercase tracking-wider text-slate-500 mb-0.5 leading-none">{feature.label}</div>
+                                  <div className={`text-xs ${isNo ? 'text-slate-400' : 'text-slate-200'} leading-snug`}>{capability}</div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
